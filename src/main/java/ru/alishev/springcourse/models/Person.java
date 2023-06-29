@@ -1,44 +1,26 @@
 package ru.alishev.springcourse.models;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 /**
  * @author Neil Alishev
  */
 public class Person {
-    private int id;
+    private int person_id;
 
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @NotEmpty(message = "ФИО не может быть пустым")
     private String name;
 
-    @Min(value = 0, message = "Age should be greater than 0")
-    private int age;
+    @Min(value = 0, message = "Год рождения должен быть выше нуля")
+    private int year;
 
-    @NotEmpty(message = "Email should not be empty")
-    @Email(message = "Email should be valid")
-    private String email;
+    public Person() {}
 
-    public Person() {
-
-    }
-
-    public Person(int id, String name, int age, String email) {
-        this.id = id;
+    public Person(int person_id, String name, int year) {
+        this.person_id = person_id;
         this.name = name;
-        this.age = age;
-        this.email = email;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.year = year;
     }
 
     public String getName() {
@@ -49,19 +31,20 @@ public class Person {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public int getPerson_id() {
+        return person_id;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 
-    public String getEmail() {
-        return email;
+    public int getYear() {
+        return year;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setYear(int year) {
+        this.year = year;
     }
+
 }
