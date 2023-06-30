@@ -38,4 +38,8 @@ public class BookDAO {
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM book WHERE book_id=?", id);
     }
+
+    public List<Book> showPersonBooks(int id) {
+        return jdbcTemplate.query("SELECT book_id, book.name, book.author, book.year, book.person_id FROM person JOIN book ON person.person_id = book.person_id Where book.person_id =?;", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
+    }
 }
