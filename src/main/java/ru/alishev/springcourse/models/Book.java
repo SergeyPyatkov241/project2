@@ -1,5 +1,7 @@
 package ru.alishev.springcourse.models;
 
+import org.springframework.lang.Nullable;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
@@ -12,11 +14,15 @@ public class Book {
     @Min(value = 0, message = "Год должен быть выше нуля")
     private int year;
 
-    public Book(int book_id, String name, String author, int year) {
+    @Nullable
+    private Integer person_id;
+
+    public Book(int book_id, String name, String author, int year, Integer person_id) {
         this.book_id = book_id;
         this.name = name;
         this.author = author;
         this.year = year;
+        this.person_id = person_id;
     }
 
     public Book() {}
@@ -51,5 +57,14 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    @Nullable
+    public Integer getPerson_id() {
+        return person_id;
+    }
+
+    public void setPerson_id(@Nullable Integer person_id) {
+        this.person_id = person_id;
     }
 }
