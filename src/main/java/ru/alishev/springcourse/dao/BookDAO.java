@@ -1,3 +1,4 @@
+/*
 package ru.alishev.springcourse.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,3 +61,4 @@ public class BookDAO {
         jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?", selectedPerson.getId(), id);
     }
 }
+*/

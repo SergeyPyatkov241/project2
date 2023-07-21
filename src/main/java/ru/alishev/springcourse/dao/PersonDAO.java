@@ -1,3 +1,4 @@
+/*
 package ru.alishev.springcourse.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,6 @@ import ru.alishev.springcourse.models.Person;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author Neil Alishev
- */
 @Component
 public class PersonDAO {
 
@@ -64,3 +62,4 @@ public class PersonDAO {
                 new BeanPropertyRowMapper<>(Book.class));
     }
 }
+*/
