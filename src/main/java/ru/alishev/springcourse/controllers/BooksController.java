@@ -11,11 +11,14 @@ import ru.alishev.springcourse.models.Book;
 import ru.alishev.springcourse.models.Person;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
+
     private final BookDAO bookDAO;
+
     private final PersonDAO personDAO;
 
     @Autowired
@@ -31,10 +34,16 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("personOwner") Person person) {
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookDAO.show(id));
-        model.addAttribute("person", personDAO.showBookOwner(id));
-        model.addAttribute("people", personDAO.index());
+
+        Optional<Person> bookOwner = bookDAO.getBookOwner(id);
+
+        if(bookOwner.isPresent())
+            model.addAttribute("owner", bookOwner.get());
+        else
+            model.addAttribute("people", personDAO.index());
+
         return "books/show";
     }
 
@@ -71,18 +80,18 @@ public class BooksController {
         return "redirect:/books";
     }
 
-    @PatchMapping("/{id}/set")
-    public String setOwner(@ModelAttribute("personOwner") Person person,
-                           @PathVariable("id") int id) {
-        System.out.println("setOwner - " + person.getPerson_id() + " " + id);
-        bookDAO.setOwner(person, id);
-        return "redirect:/books";
+    @PatchMapping("/{id}/release")
+    public String release(@PathVariable("id") int id) {
+        System.out.println("release - " + id);
+        bookDAO.release(id);
+        return "redirect:/books/" + id;
     }
 
-    @PatchMapping("/{id}/remove")
-    public String removeOwner(@PathVariable("id") int id) {
-        System.out.println("removeOwner - " + id);
-        bookDAO.removeOwner(id);
-        return "redirect:/books";
+    @PatchMapping("/{id}/assign")
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
+        System.out.println("assign - " + selectedPerson.getId() + " " + id);
+        bookDAO.assign(id, selectedPerson);
+        return "redirect:/books/" + id;
     }
+
 }

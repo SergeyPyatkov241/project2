@@ -4,43 +4,45 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class Book {
-    private int book_id;
-    @NotEmpty(message = "Имя не может быть пустым")
-    private String name;
+
+    private int id;
+
+    @NotEmpty(message = "Название книги не должно быть пустым")
+    @Size(min = 2, max = 100, message = "Название книги должно быть от 2 до 100 символов длиной")
+    private String title;
+
     @NotEmpty(message = "Автор не может быть пустым")
+    @Size(min = 2, max = 100, message = "Имя автора должно быть от 2 до 100 символов длиной")
     private String author;
-    @Min(value = 0, message = "Год должен быть выше нуля")
+
+    @Min(value = 1500, message = "Год должен быть больше, чем 1500")
     private int year;
-
-    @Nullable
-    private Integer person_id;
-
-    public Book(int book_id, String name, String author, int year, Integer person_id) {
-        this.book_id = book_id;
-        this.name = name;
-        this.author = author;
-        this.year = year;
-        this.person_id = person_id;
-    }
 
     public Book() {}
 
-    public int getBook_id() {
-        return book_id;
+    public Book(String title, String author, int year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
     }
 
-    public void setBook_id(int book_id) {
-        this.book_id = book_id;
+    public int getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {
@@ -57,14 +59,5 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
-    }
-
-    @Nullable
-    public Integer getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(@Nullable Integer person_id) {
-        this.person_id = person_id;
     }
 }

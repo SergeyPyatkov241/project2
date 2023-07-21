@@ -8,6 +8,7 @@ import ru.alishev.springcourse.models.Book;
 import ru.alishev.springcourse.models.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -23,31 +24,39 @@ public class BookDAO {
     }
 
     public Book show(int id) {
-        return jdbcTemplate.query("SELECT * FROM book WHERE book_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
+        return jdbcTemplate.query("SELECT * FROM book WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
                 .stream().findAny().orElse(null);
     }
 
     public void save(Book book) {
-        jdbcTemplate.update("INSERT INTO book(name, author, year) VALUES (?, ?, ?)", book.getName(), book.getAuthor(), book.getYear());
+        jdbcTemplate.update("INSERT INTO book(title, author, year) VALUES (?, ?, ?)", book.getTitle(),
+                book.getAuthor(), book.getYear());
     }
 
     public void update(int id, Book updatedBook) {
-        jdbcTemplate.update("UPDATE book SET name=?, author=?, year=? WHERE book_id=?", updatedBook.getName(), updatedBook.getAuthor(),
-                updatedBook.getYear(), id);
+        jdbcTemplate.update("UPDATE book SET title=?, author=?, year=? WHERE id=?", updatedBook.getTitle(),
+                updatedBook.getAuthor(), updatedBook.getYear(), id);
     }
 
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM book WHERE book_id=?", id);
+        jdbcTemplate.update("DELETE FROM book WHERE id=?", id);
     }
 
-    public List<Book> showPersonBooks(int id) {
-        return jdbcTemplate.query("SELECT book_id, book.name, book.author, book.year, book.person_id FROM person JOIN book ON person.person_id = book.person_id Where book.person_id =?;", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
+    // Join'ним таблицы Book и Person и получаем человека, которому принадлежит книга с указанным id
+    public Optional<Person> getBookOwner(int id) {
+        // Выбираем все поля таблицы Person из объединенной таблицы
+        return jdbcTemplate.query("SELECT Person.* FROM Book JOIN Person ON Book.person_id = Person.id " +
+                "WHERE Book.id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny();
     }
 
-    public void setOwner(Person updatedPerson, int id) {
-        jdbcTemplate.update("UPDATE book SET person_id=? WHERE book_id=?", updatedPerson.getPerson_id(), id);
+    // Освобождает книгу (этот метод вызывается, когда человек возвращает книгу в библиотеку)
+    public void release(int id) {
+        jdbcTemplate.update("UPDATE book SET person_id=null WHERE id=?", id);
     }
-    public void removeOwner(int id) {
-        jdbcTemplate.update("UPDATE book SET person_id=null WHERE book_id=?", id);
+
+    // Назначает книгу человеку (этот метод вызывается, когда человек забирает книгу из библиотеки)
+    public void assign(int id, Person selectedPerson) {
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?", selectedPerson.getId(), id);
     }
 }

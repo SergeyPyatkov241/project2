@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.alishev.springcourse.dao.BookDAO;
 import ru.alishev.springcourse.dao.PersonDAO;
 import ru.alishev.springcourse.models.Person;
+import ru.alishev.springcourse.util.PersonValidator;
 
 import javax.validation.Valid;
 
@@ -19,24 +19,26 @@ import javax.validation.Valid;
 public class PeopleController {
 
     private final PersonDAO personDAO;
-    private final BookDAO bookDAO;
+    private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, BookDAO bookDAO) {
+    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
-        this.bookDAO = bookDAO;
+        this.personValidator = personValidator;
     }
 
     @GetMapping()
     public String index(Model model) {
+        System.out.println("Зашел в контроллер в index");
         model.addAttribute("people", personDAO.index());
+        System.out.println("Передал в модель данные, вызываю страницу");
         return "people/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
-        model.addAttribute("books", bookDAO.showPersonBooks(id));
+        model.addAttribute("books", personDAO.getBooksByPersonId(id));
         return "people/show";
     }
 
@@ -48,6 +50,8 @@ public class PeopleController {
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors())
             return "people/new";
 

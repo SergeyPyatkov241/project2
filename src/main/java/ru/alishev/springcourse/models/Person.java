@@ -2,49 +2,59 @@ package ru.alishev.springcourse.models;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * @author Neil Alishev
  */
 public class Person {
-    private int person_id;
+
+    private int id;
 
     @NotEmpty(message = "ФИО не может быть пустым")
-    private String name;
+    @Size(min = 2, max = 100, message = "Имя должно быть от 2 до 100 символов длиной")
+    private String fullName;
 
-    @Min(value = 0, message = "Год рождения должен быть выше нуля")
-    private int year;
+    @Min(value = 1900, message = "Год рождения должен быть больше, чем 1900")
+    private int yearOfBirth;
 
     public Person() {}
 
-    public Person(int person_id, String name, int year) {
-        this.person_id = person_id;
-        this.name = name;
-        this.year = year;
+    public Person(String fullName, int yearOfBirth) {
+        this.fullName = fullName;
+        this.yearOfBirth = yearOfBirth;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public int getYear() {
-        return year;
+    public int getYearOfBirth() {
+        return yearOfBirth;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setYearOfBirth(int yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
     }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", yearOfBirth=" + yearOfBirth +
+                '}';
+    }
 }
