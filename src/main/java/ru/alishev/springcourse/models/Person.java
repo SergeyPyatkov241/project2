@@ -28,7 +28,7 @@ public class Person {
     @Min(value = 1900, message = "Год рождения должен быть больше, чем 1900")
     private int yearOfBirth;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Book> books;
 
     public Person() {}
@@ -73,10 +73,8 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
+                "fullName='" + fullName + '\'' +
                 ", yearOfBirth=" + yearOfBirth +
-                ", books=" + books +
                 '}';
     }
 }

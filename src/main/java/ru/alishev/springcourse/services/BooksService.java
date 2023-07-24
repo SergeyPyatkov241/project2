@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.models.Book;
 import ru.alishev.springcourse.models.Person;
 import ru.alishev.springcourse.repositories.BooksRepository;
-import ru.alishev.springcourse.repositories.PeopleRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,12 +16,9 @@ public class BooksService {
 
     private final BooksRepository booksRepository;
 
-    private final PeopleRepository peopleRepository;
-
     @Autowired
-    public BooksService(BooksRepository booksRepository, PeopleRepository peopleRepository) {
+    public BooksService(BooksRepository booksRepository) {
         this.booksRepository = booksRepository;
-        this.peopleRepository = peopleRepository;
     }
 
     public List<Book> findAll() {
@@ -41,19 +37,10 @@ public class BooksService {
 
     @Transactional
     public void update(int id, Book updatedBook) {
-        System.out.println("------ обновление книги -----");
-        System.out.println("Книга до сохранения - " + updatedBook);
+        Book bookOwner = booksRepository.findById(id).get();
         updatedBook.setId(id);
-
-        Person bookOwner = null;
-        Optional<Person> bookOwnerResult = peopleRepository.findByBooks(updatedBook);
-        if(bookOwnerResult.isPresent())
-            bookOwner = bookOwnerResult.get();
-
-        updatedBook.setOwner(bookOwner);
+        updatedBook.setOwner(bookOwner.getOwner());
         booksRepository.save(updatedBook);
-        System.out.println("Книга после сохранения - " + updatedBook);
-        System.out.println("------ конец обновления книги -----");
     }
 
     @Transactional
