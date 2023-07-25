@@ -79,4 +79,8 @@ public class BooksService {
             return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
 
+    public List<Book> findBooksByTitle(String searchQuery) {
+        return booksRepository.findByTitleStartingWith(searchQuery);
+    }
+
 }
