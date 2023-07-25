@@ -2,7 +2,6 @@ package ru.alishev.springcourse.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.alishev.springcourse.models.Book;
 import ru.alishev.springcourse.models.Person;
 
 import java.util.Optional;
@@ -11,7 +10,5 @@ import java.util.Optional;
 public interface PeopleRepository extends JpaRepository<Person, Integer> {
 
     Optional<Person> findByFullName(String fullName);
-
-    Optional<Person> findByBooks(Book book);
 
 }

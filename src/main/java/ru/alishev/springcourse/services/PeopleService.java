@@ -1,5 +1,6 @@
 package ru.alishev.springcourse.services;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,7 @@ import ru.alishev.springcourse.models.Person;
 import ru.alishev.springcourse.repositories.BooksRepository;
 import ru.alishev.springcourse.repositories.PeopleRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +53,13 @@ public class PeopleService {
         return peopleRepository.findByFullName(fullName);
     }
 
-    public Optional<Person> findByBooks(Book book) {
-        return peopleRepository.findByBooks(book);
+    public List<Book> getBooksByPersonId(int id) {
+        Optional<Person> person = peopleRepository.findById(id);
+
+        if(person.isPresent()) {
+            return person.get().getBooks();
+        } else {
+            return Collections.emptyList();
+        }
     }
 }

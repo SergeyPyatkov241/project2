@@ -11,7 +11,7 @@ import ru.alishev.springcourse.services.BooksService;
 import ru.alishev.springcourse.services.PeopleService;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/books")
@@ -37,10 +37,10 @@ public class BooksController {
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         model.addAttribute("book", booksService.findOne(id));
 
-        Optional<Person> bookOwner = peopleService.findByBooks(booksService.findOne(id));
+        Person bookOwner = booksService.getBookOwner(id);
 
-        if(bookOwner.isPresent())
-            model.addAttribute("owner", bookOwner.get());
+        if(!Objects.isNull(bookOwner))
+            model.addAttribute("owner", bookOwner);
         else
             model.addAttribute("people", peopleService.findAll());
 

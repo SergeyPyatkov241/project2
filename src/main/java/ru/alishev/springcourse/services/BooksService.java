@@ -48,6 +48,10 @@ public class BooksService {
         booksRepository.deleteById(id);
     }
 
+    public Person getBookOwner(int id) {
+        return booksRepository.findById(id).map(Book::getOwner).orElse(null);
+    }
+
     @Transactional
     public void release(int id) {
         Optional<Book> foundBook = booksRepository.findById(id);
@@ -63,7 +67,4 @@ public class BooksService {
         booksRepository.save(updatedBook);
     }
 
-    public List<Book> findByOwner(Person owner) {
-        return booksRepository.findByOwner(owner);
-    }
 }
