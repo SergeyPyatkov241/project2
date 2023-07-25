@@ -2,6 +2,7 @@ package ru.alishev.springcourse.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.models.Book;
@@ -22,8 +23,11 @@ public class BooksService {
         this.booksRepository = booksRepository;
     }
 
-    public List<Book> findAll() {
-        return booksRepository.findAll();
+    public List<Book> findAll(boolean sortByYear) {
+        if (sortByYear)
+            return booksRepository.findAll(Sort.by("year"));
+        else
+            return booksRepository.findAll();
     }
 
     public Book findOne(int id) {
@@ -68,8 +72,11 @@ public class BooksService {
         booksRepository.save(updatedBook);
     }
 
-    public List<Book> findAllWithPagination(Integer page, Integer booksPerPage) {
-        return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
+    public List<Book> findAllWithPagination(Integer page, Integer booksPerPage, boolean sortByYear) {
+        if(sortByYear)
+            return booksRepository.findAll(PageRequest.of(page, booksPerPage, Sort.by("year"))).getContent();
+        else
+            return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
 
 }

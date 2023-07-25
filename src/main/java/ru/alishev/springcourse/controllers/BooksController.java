@@ -30,11 +30,12 @@ public class BooksController {
 
     @GetMapping()
     public String index(Model model, @RequestParam(value = "page", required = false) Integer page,
-                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                        @RequestParam(value = "sort_by_year", required = false) boolean sortByYear) {
         if(page == null || booksPerPage == null) {
-            model.addAttribute("books", booksService.findAll());
+            model.addAttribute("books", booksService.findAll(sortByYear));
         } else {
-            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage));
+            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage, sortByYear));
         }
         return "books/index";
     }
