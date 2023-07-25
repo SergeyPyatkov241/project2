@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.models.Book;
@@ -65,6 +66,10 @@ public class BooksService {
         Book updatedBook = findOne(id);
         updatedBook.setOwner(selectedPerson);
         booksRepository.save(updatedBook);
+    }
+
+    public List<Book> findAllWithPagination(Integer page, Integer booksPerPage) {
+        return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
 
 }

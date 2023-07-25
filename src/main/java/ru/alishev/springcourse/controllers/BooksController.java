@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,8 +29,13 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model, @RequestParam(value = "page", required = false) Integer page,
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
+        if(page == null || booksPerPage == null) {
+            model.addAttribute("books", booksService.findAll());
+        } else {
+            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage));
+        }
         return "books/index";
     }
 
