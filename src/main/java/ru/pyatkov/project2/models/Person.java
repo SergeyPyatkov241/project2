@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.models;
+package ru.pyatkov.project2.models;
 
 import javax.persistence.*;
 
@@ -28,7 +28,7 @@ public class Person {
     @Min(value = 1900, message = "Год рождения должен быть больше, чем 1900")
     private int yearOfBirth;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "owner")
     private List<Book> books;
 
     public Person() {}

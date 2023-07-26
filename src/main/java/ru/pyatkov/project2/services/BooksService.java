@@ -1,14 +1,15 @@
-package ru.alishev.springcourse.services;
+package ru.pyatkov.project2.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.alishev.springcourse.models.Book;
-import ru.alishev.springcourse.models.Person;
-import ru.alishev.springcourse.repositories.BooksRepository;
+import ru.pyatkov.project2.models.Book;
+import ru.pyatkov.project2.models.Person;
+import ru.pyatkov.project2.repositories.BooksRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,7 @@ public class BooksService {
         Optional<Book> foundBook = booksRepository.findById(id);
         Book releaseBook = foundBook.get();
         releaseBook.setOwner(null);
+        releaseBook.setTakenAt(null);
         booksRepository.save(releaseBook);
     }
 
@@ -69,6 +71,7 @@ public class BooksService {
     public void assign(int id, Person selectedPerson) {
         Book updatedBook = findOne(id);
         updatedBook.setOwner(selectedPerson);
+        updatedBook.setTakenAt(new Date());
         booksRepository.save(updatedBook);
     }
 

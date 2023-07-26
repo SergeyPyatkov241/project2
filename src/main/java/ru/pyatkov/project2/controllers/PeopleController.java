@@ -1,13 +1,13 @@
-package ru.alishev.springcourse.controllers;
+package ru.pyatkov.project2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.alishev.springcourse.models.Person;
-import ru.alishev.springcourse.services.PeopleService;
-import ru.alishev.springcourse.util.PersonValidator;
+import ru.pyatkov.project2.models.Person;
+import ru.pyatkov.project2.services.PeopleService;
+import ru.pyatkov.project2.util.PersonValidator;
 
 import javax.validation.Valid;
 

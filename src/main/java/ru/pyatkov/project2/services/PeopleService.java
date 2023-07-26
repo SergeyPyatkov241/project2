@@ -1,15 +1,15 @@
-package ru.alishev.springcourse.services;
+package ru.pyatkov.project2.services;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.alishev.springcourse.models.Book;
-import ru.alishev.springcourse.models.Person;
-import ru.alishev.springcourse.repositories.BooksRepository;
-import ru.alishev.springcourse.repositories.PeopleRepository;
+import ru.pyatkov.project2.models.Book;
+import ru.pyatkov.project2.models.Person;
+import ru.pyatkov.project2.repositories.PeopleRepository;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +57,15 @@ public class PeopleService {
         Optional<Person> person = peopleRepository.findById(id);
 
         if(person.isPresent()) {
+            Hibernate.initialize(person.get().getBooks());
+
+            person.get().getBooks().forEach(book -> {
+                long diffInMilliseconds = Math.abs(book.getTakenAt().getTime() - new Date().getTime());
+
+                if (diffInMilliseconds > 864000000)
+                    book.setExpired(true);
+            });
+
             return person.get().getBooks();
         } else {
             return Collections.emptyList();

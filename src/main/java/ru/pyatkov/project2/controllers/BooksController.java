@@ -1,15 +1,14 @@
-package ru.alishev.springcourse.controllers;
+package ru.pyatkov.project2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.alishev.springcourse.models.Book;
-import ru.alishev.springcourse.models.Person;
-import ru.alishev.springcourse.services.BooksService;
-import ru.alishev.springcourse.services.PeopleService;
+import ru.pyatkov.project2.models.Book;
+import ru.pyatkov.project2.models.Person;
+import ru.pyatkov.project2.services.BooksService;
+import ru.pyatkov.project2.services.PeopleService;
 
 import javax.validation.Valid;
 import java.util.Objects;
