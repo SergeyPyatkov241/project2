@@ -24,9 +24,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * @author Neil Alishev
- */
 @Configuration
 @ComponentScan("ru.pyatkov.project2")
 @PropertySource("classpath:hibernate.properties")

@@ -10,10 +10,6 @@ import ru.pyatkov.project2.services.PeopleService;
 import ru.pyatkov.project2.util.PersonValidator;
 
 import javax.validation.Valid;
-
-/**
- * @author Neil Alishev
- */
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
